@@ -755,112 +755,6 @@ kan_vs_slfn_r2 = (test_r2_kan - test_r2_slfn) * 100
 print(f"  KAN vs SLFN MSE Improvement: {kan_vs_slfn_mse:.2f}%")
 print(f"  KAN vs SLFN R² Improvement: {kan_vs_slfn_r2:.2f} percentage points")
 
-print(f"\n" + "="*50)
-print("FEATURE IMPORTANCE ANALYSIS")
-print("="*50)
-
-print("\nTop 15 Features by Sieve KAN Edge Norms (Input Layer):")
-kan_model.eval()
-with torch.no_grad():
-    input_layer = kan_model.layers[0]
-    edge_norms = torch.norm(input_layer.spline_weight, p=2, dim=2)
-
-    if edge_norms.dim() == 2:
-        if edge_norms.size(0) > 1:
-            feature_importance = edge_norms.mean(dim=0).cpu().numpy()
-        else:
-            feature_importance = edge_norms.squeeze(0).cpu().numpy()
-    else:
-        feature_importance = edge_norms.cpu().numpy()
-
-    top_k = min(15, len(feature_importance))
-    if len(feature_importance) < d:
-        print(f"  Warning: Feature importance array has length {len(feature_importance)} but expected {d}")
-        top_k = min(top_k, len(feature_importance))
-
-    top_indices = np.argsort(feature_importance)[::-1][:top_k]
-
-    for i, idx in enumerate(top_indices):
-        if idx < len(feature_names):
-            feature_name = feature_names[idx]
-            norm_value = feature_importance[idx]
-            print(f"  {i+1:2d}. {feature_name}: {norm_value:.6f}")
-        else:
-            print(f"  {i+1:2d}. Index {idx} out of bounds for feature_names")
-
-print("\nTop 15 Features by LASSO Coefficients (Absolute):")
-abs_coefficients = np.abs(coefficients)
-top_lasso_indices = np.argsort(abs_coefficients)[::-1][:15]
-
-for i, idx in enumerate(top_lasso_indices):
-    if idx < len(feature_names):
-        feature_name = feature_names[idx]
-        coef_value = coefficients[idx]
-        print(f"  {i+1:2d}. {feature_name}: {coef_value:.6f}")
-    else:
-        print(f"  {i+1:2d}. Index {idx} out of bounds for feature_names")
-
-print("\nTop 15 Features by SLFN First Layer Weights (Absolute):")
-slfn_model.eval()
-with torch.no_grad():
-    slfn_weights = slfn_model.fc1.weight.data.cpu().numpy()
-    slfn_feature_importance = np.mean(np.abs(slfn_weights), axis=0)
-
-    top_slfn_indices = np.argsort(slfn_feature_importance)[::-1][:15]
-
-    for i, idx in enumerate(top_slfn_indices):
-        if idx < len(feature_names):
-            feature_name = feature_names[idx]
-            weight_value = slfn_feature_importance[idx]
-            print(f"  {i+1:2d}. {feature_name}: {weight_value:.6f}")
-        else:
-            print(f"  {i+1:2d}. Index {idx} out of bounds for feature_names")
-
-if len(feature_importance) >= 15 and len(abs_coefficients) >= 15:
-    kan_top_set = set([feature_names[i] for i in top_indices if i < len(feature_names)])
-    lasso_top_set = set([feature_names[i] for i in top_lasso_indices if i < len(feature_names)])
-    slfn_top_set = set([feature_names[i] for i in top_slfn_indices if i < len(feature_names)])
-
-    overlap_all = kan_top_set.intersection(lasso_top_set).intersection(slfn_top_set)
-    overlap_kan_lasso = kan_top_set.intersection(lasso_top_set)
-
-    print(f"\nOverlap in top 15 features:")
-    print(f"  All three models: {len(overlap_all)}/15")
-    print(f"  KAN & LASSO: {len(overlap_kan_lasso)}/15")
-
-    if overlap_all:
-        print("  Common to all models:", ", ".join(sorted(overlap_all)))
-
-print(f"\nKey Financial Variables Analysis:")
-key_vars = ['yield', 'creditSpread', 'inflation', 'unemployment', 'gdp_growth']
-for var in key_vars:
-    if var in feature_names:
-        idx = feature_names.index(var)
-
-        if idx < len(coefficients):
-            lasso_coef = coefficients[idx]
-            lasso_status = "SELECTED" if np.abs(lasso_coef) > 1e-6 else "NOT SELECTED"
-        else:
-            lasso_coef = 0
-            lasso_status = "NOT FOUND"
-
-        if idx < len(feature_importance):
-            kan_norm = feature_importance[idx]
-            kan_rank = np.where(top_indices == idx)[0][0] + 1 if idx in top_indices else "Not in top 15"
-        else:
-            kan_norm = 0
-            kan_rank = "Not found"
-
-        if idx < len(slfn_feature_importance):
-            slfn_weight = slfn_feature_importance[idx]
-            slfn_rank = np.where(top_slfn_indices == idx)[0][0] + 1 if idx in top_slfn_indices else "Not in top 15"
-        else:
-            slfn_weight = 0
-            slfn_rank = "Not found"
-
-        print(f"  {var:<15} LASSO: {lasso_coef:.6f} ({lasso_status}) | "
-              f"KAN: {kan_norm:.6f} (Rank {kan_rank}) | "
-              f"SLFN: {slfn_weight:.6f} (Rank {slfn_rank})")
 
 print(f"\n" + "="*50)
 print("SUMMARY")
@@ -884,4 +778,5 @@ print(f"  Network: L={kan_model.L}, W={kan_model.W}, G={kan_model.G}, Δ_n={kan_
 print(f"\nImprovement vs LASSO:")
 print(f"  SLFN: {improvement_slfn_mse:.1f}% lower MSE, +{improvement_slfn_r2:.2f} pp R²")
 print(f"  Sieve KAN: {improvement_kan_mse:.1f}% lower MSE, +{improvement_kan_r2:.2f} pp R²")
+
 print(f"  KAN vs SLFN: {kan_vs_slfn_mse:.1f}% lower MSE, +{kan_vs_slfn_r2:.2f} pp R²")
