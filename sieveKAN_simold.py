@@ -1636,4 +1636,5 @@ if __name__ == '__main__':
     summary = results_df[['method', 'theta_hat', 'bias', 'm_test_r2', 'g_test_r2', 
                          'v_hat_std', 'v_hat_corr_d', 'active_params_m', 'runtime']].copy()
 
+
     print(summary.to_string(index=False))
