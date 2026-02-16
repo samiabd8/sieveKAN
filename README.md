@@ -33,7 +33,7 @@ sieveKAN is a PyTorch implementation of Kolmogorov-Arnold Networks (KAN) designe
 Run the simulation script to test the model on synthetic high-dimensional data:
 
 ```bash
-python "sieveKAN_sim.py"
+python sieveKAN_sim.py
 
 ```
 
