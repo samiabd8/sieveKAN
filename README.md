@@ -7,7 +7,7 @@ sieveKAN is a PyTorch implementation of Kolmogorov-Arnold Networks (KAN) designe
 ## Key Features
 
 * **B-Spline Basis**: Uses flexible B-spline functions for activations.
-* **Sample-Size Scaling**: Automatically tunes network width (), depth (), and grid size () based on the number of observations ().
+* **Sample-Size Scaling**: Automatically tunes network width, depth, and grid size based on the number of observations.
 * **Functional Sparsity**: Includes edge pruning and projection to maintain model parsimony.
 * **Regularization**: Centers around **Group Lasso** regularization.
 * **CDF Transformation**: Includes an `EmpiricalCDFTransformer` for robust feature normalization.
