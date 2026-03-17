@@ -10,7 +10,7 @@ sieveKAN is a PyTorch implementation of Kolmogorov-Arnold Networks (KAN) designe
 * **Sample-Size Scaling**: Automatically tunes network width, depth, and grid size based on the number of observations.
 * **Functional Sparsity**: Includes edge pruning and projection to maintain model parsimony.
 * **Regularization**: Centers around **Group Lasso** regularization.
-* **CDF Transformation**: Includes an `EmpiricalCDFTransformer` for robust feature normalization.
+* **CDF Transformation**: Includes an `EmpiricalCDFTransformer` for feature normalization.
 
 ## Requirements
 
@@ -57,4 +57,4 @@ This implementation satisfies the convergence rate required for valid causal inf
 
 ## Citation
 
-Abdurahman, S. (2026). Kolmogorov-Arnold networks for high-dimensional estimation: a method of sieves approach. *Working Paper.*
+Abdurahman, S. (2026). Kolmogorov-Arnold sieve networks for high-dimensional estimation and inference. *Working Paper.*
