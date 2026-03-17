@@ -1,4 +1,4 @@
-# sieveKAN: Kolmogorov-Arnold Sieve Extremum Estimation
+# sieveKAN: Kolmogorov-Arnold Sieve Networks for High-dimensional Estimation and Inference
 
 ## Overview
 
