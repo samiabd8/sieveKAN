@@ -1,4 +1,4 @@
-# sieveKAN: Kolmogorov-Arnold Sieve Networks for High-dimensional Estimation and Inference
+# sieveKAN/KASN: Kolmogorov-Arnold Sieve Networks for High-dimensional Estimation and Inference
 
 ## Overview
 
