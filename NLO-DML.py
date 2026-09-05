@@ -2,7 +2,6 @@
 # NLO CROSS-FITTING
 # ============================================================================
 
-
 def block_partition(n, K=None):
     """The K adjacent blocks M_k of size T_b = floor(n/K), remainder in M_K."""
     K = K_FOLDS if K is None else K
