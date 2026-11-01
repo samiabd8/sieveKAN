@@ -1,6 +1,6 @@
 # SieveKAN
 
-Replication code for *Kolmogorov-Arnold Sieve Networks for High-Dimensional Estimation and Inference* (Abdurahman, 2026). The maintained package is [`kasn`](https://github.com/samiabd8/kasn) (`pip install kasn`).
+Replication code for *Kolmogorov-Arnold Sieve Networks for High-Dimensional Estimation and Inference* (Abdurahman, 2026). The maintained package is [`KASN`](https://github.com/samiabd8/kasn) (`pip install kasn`).
 
 | File | Contents |
 |---|---|
